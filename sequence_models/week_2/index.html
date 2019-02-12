@@ -1091,7 +1091,7 @@
 <p>And similarly, the <a href="http://www.wikiwand.com/en/Euclidean_distance">euclidean distance</a> between any two one-hot encoded vectors is identical:</p>
 <p>\[||O_i - O_j|| = \sqrt{|V|}\text{ for } \forall i,j\]</p>
 <p>To build our intuition of word embeddings, image a contrived example where we represent each word with some <strong>feature representation</strong>:</p>
-<p><a href="https://postimg.cc/image/5mcil7jcf/"><img alt="word_embeddings_intro.png" src="https://s19.postimg.cc/6bvaxkjw3/word_embeddings_intro.png" /></a></p>
+<p><img alt="word_embeddings_intro.png" src="../../img/word-embeddings-intro.png" /></p>
 <p>We could imagine many features (with values -1 to 1, say) that can be used to build up a featue representation, an \(f_n\)-dimensional vector, of each word. Similarly to our one-hot representations, lets introduce a new notation \(e_i\) to represent the <em>embedding</em> of token \(i\) in our vocabulary \(V\).</p>
 <blockquote>
 <p>Where \(f_n\) is the number of features.</p>
@@ -1102,18 +1102,18 @@
 </blockquote>
 <h3 id="visualizing-word-embeddings">Visualizing word embeddings</h3>
 <p>Once these feature vectors or <em>embeddings</em> are learned, a popular thing to do is to use dimensionality reduction to <em>embed</em> them into a 2D geometric space for easy visualization. An example of this using our word representations presented above:</p>
-<p><a href="https://postimg.cc/image/ofybhwcbz/"><img alt="visualize_embeddings.png" src="https://s19.postimg.cc/e5vwinmgj/visualize_embeddings.png" /></a></p>
+<p><img alt="visualize_embeddings.png" src="../../img/visualize-embeddings.png" /></p>
 <p>We notice that semantically similar words tend to cluster together, and that each cluster seems to roughly represent some idea or concept (i.e., numbers typically cluster together). This demonstrates our ability to learn <em>similar</em> feature vectors for <em>similar</em> tokens and will allow our models to generalize between words and even sentences.</p>
 <blockquote>
 <p>A common algorithm for doing this is the <a href="http://www.wikiwand.com/en/T-distributed_stochastic_neighbor_embedding">t-SNE</a> algorithm.</p>
 </blockquote>
 <p>The reason this feature representations are called <em>embeddings</em> is because we imagine that we are <em>embedding</em> each word into a geometric space (say, of 300 dimensions). If you imagine a cube, we can think of giving each word a single unit of space within this cube.</p>
-<p><a href="https://postimg.cc/image/llv64kzwv/"><img alt="why_embeddings.png" src="https://s19.postimg.cc/ofybi1237/why_embeddings.png" /></a></p>
+<p><img alt="why_embeddings.png" src="../../img/why-embeddings.png" /></p>
 <h2 id="introduction-to-word-embeddings-using-word-embeddings">Introduction to word embeddings: Using word embeddings</h2>
 <p>In the last lecture, you saw what it might mean to learn a featurized representations of different words. In this lecture, you see how we can take these representations and plug them into NLP applications.</p>
 <h3 id="named-entity-recognition-example">Named entity recognition example</h3>
 <p>Take again the example of named entity recognition, and image we have the following example:</p>
-<p><a href="https://postimg.cc/image/9clc5o29r/"><img alt="ner_word_emb_example.png" src="https://s19.postimg.cc/btx3cxm6b/ner_word_emb_example.png" /></a></p>
+<p><img alt="ner_word_emb_example.png" src="../../img/ner-word-emb-example.png" /></p>
 <p>Let's assume we correctly identify "<em>Sally Johnson</em>" as a PERSON entity. Now imagine we see the following sequence:</p>
 <p>\[x: \text{"Robert Lin is a durian cultivator"}\]</p>
 <blockquote>
@@ -1135,7 +1135,7 @@
 <p>By now, you should have a sense of how word embeddings can help you build NLP applications. One of the most fascinating properties of word embeddings is that they can also help with <strong>analogy reasoning</strong>. And while reasoning by analogy may not be, by itself, the most important NLP application, it helps to convey a sense of what information these word embeddings are capturing.</p>
 <h3 id="analogies">Analogies</h3>
 <p>Let us return to our previous example:</p>
-<p><a href="https://postimg.cc/image/wglsy3sof/"><img alt="word_emb_analogies.png" src="https://s19.postimg.cc/b6y6n9cdv/word_emb_analogies.png" /></a></p>
+<p><img alt="word_emb_analogies.png" src="../../img/word-emb-analogies.png" /></p>
 <p>Say we post the question: "<em>Man is to women as king is to <strong>what</strong>?</em>"</p>
 <p>Many of us would agree that the answer to this question is "Queen" (in part because of humans remarkable ability to <a href="https://plato.stanford.edu/entries/reasoning-analogy/">reason by analogy</a>). But can we have a computer arrive at the same answer using embeddings?</p>
 <p>First, lets simplify our earlier notation and allow \(e_{man}\) to denote the learned embedding for the token "<em>man</em>". Now, if we take the difference \(e_{man} - e_{woman}\), the resulting vector is closest to \(e_{king} - e_{queen}\).</p>
@@ -1147,9 +1147,9 @@
 <p>This ability to mimic analogical reasoning and other interesting properties of word embeddings were introduced in this <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/rvecs.pdf">paper</a>.</p>
 </blockquote>
 <p>Lets try to visualize why this makes sense. Imagine our word embedding plotted as vectors in a 300D space (represented here in 2 dimensions for visualization). We would expect our vectors to line up in a parallelogram:</p>
-<p><a href="https://postimg.cc/image/c1kq9ipfz/"><img alt="visualize_word_emb_300d.png" src="https://s19.postimg.cc/f8f9t59w3/visualize_word_emb_300d.png" /></a></p>
+<p><img alt="visualize_word_emb_300d.png" src="../../img/visualize-word-emb-300d.png" /></p>
 <p>Note that in reality, if you use a dimensionality reduction algorithm such as t-SNE, you will find that this expected relationship between words in an analogy does not hold:</p>
-<p><a href="https://postimg.cc/image/if9tcrmm7/"><img alt="t-sne_visulize_word_emb.png" src="https://s19.postimg.cc/xb8ckcy0z/t-sne_visulize_word_emb.png" /></a></p>
+<p><img alt="t-sne_visulize_word_emb.png" src="../../img/t-sne-visulize-word-emb.png" /></p>
 <p>We want to find \(e_w \approx e_{king} - e_{man} + e_{woman}\). Our algorithm is thus:</p>
 <p>\[argmax_w \; sim(e_w, e_{king} - e_{man} + e_{woman})\]</p>
 <p>The most commonly used similarity function, \(sim\) is the <em>cosine similarity</em>:</p>
@@ -1185,7 +1185,7 @@
 </blockquote>
 <p>\[x: \text{"I want a glass of orange ____"}\]</p>
 <p>One way to approach this problem is to lookup the embeddings for each word in the given sequence, and feed this to a densely connected layer which itself feeds to a single output unit with <strong>softmax</strong>.</p>
-<p><a href="https://postimg.cc/image/78tghnh27/"><img alt="neural_language_model_ex.png" src="https://s19.postimg.cc/f1k49mn1f/neural_language_model_ex.png" /></a></p>
+<p><img alt="neural_language_model_ex.png" src="../../img/neural-language-model-ex.png" /></p>
 <p>Imagine our embeddings are 300 dimensions. Then our input layer is \(\mathbb R^{6 \times 300}\). Our dense layer and output softmax layer have their own parameters, \(W^{[1]}, b^{[1]}\) and \(W^{[2]}, b^{[2]}\). We can then use back-propagation to learn these parameters along with the embedding matrix. The reason this works is because the algorithm is incentivized to learn good word embeddings in order to generalize and perform well when predicting the next word in a sequence.</p>
 <h3 id="generalizing">Generalizing</h3>
 <p>Imagine we wanted to learn the word "<em>juice</em>" in the following sentence:</p>
@@ -1349,7 +1349,7 @@
 <p>might incorrectly be predicted to correspond with a high star rating, because of the appearance of "good" three times.</p>
 <h3 id="rnn-sentiment-classification-model">RNN sentiment classification model</h3>
 <p>A more sophisticated model involves using the embeddings as inputs to an RNN, which uses a softmax layer at the last timestep to predict a star rating:</p>
-<p><a href="https://postimg.cc/image/5zlev64mn/"><img alt="Screen_Shot_2018-06-14_at_7.18.52_PM.png" src="https://s19.postimg.cc/kisjwkxrn/Screen_Shot_2018-06-14_at_7.18.52_PM.png" /></a></p>
+<p><img alt="rnn-for-sentiment-classification.png" src="../../img/rnn-for-sentiment-classification.png" /></p>
 <p>Recall that we actually saw this example when discussing many-to-one RNN architectures. Unlike the previous, simpler model, this model takes into account word order and performs much better on examples such as:</p>
 <p>\[x: \text{"Completely lacking in good taste, good service, and good ambience.", } y: 1/5 \text{ stars}\]</p>
 <p>which contain many negated, positive words. When paired with pre-trained word embeddings, this model works quite while.</p>
@@ -1384,7 +1384,7 @@
 <p>Take pairs of definitional words (such as <em>"grandmother"</em> and <em>"grandfather"</em> and equalize their difference to the <strong>non-bias direction</strong> or axis. This ensures that these words are equidistant to all other words for which we have "neturalized" and encoded bias.</p>
 <p>This process is a little complicated, but the end results is that these pairs of words, (e.g. <em>"grandmother"</em> and <em>"grandfather"</em>) are moved to a pair of points that are equidistant from the <strong>non-bias direction</strong> or axis.</p>
 <p>It turns out, the number of these pairs is very small. It is quite feasible to pick this out by hand.</p>
-<p><a href="https://postimg.cc/image/g3h2n9z33/"><img alt="biased_embeddings.png" src="https://s19.postimg.cc/m4erkclpf/biased_embeddings.png" /></a></p>
+<p><img alt="biased_embeddings.png" src="../../img/biased-embeddings.png" /></p>
 <h3 id="summary_4">Summary</h3>
 <p>Reducing or eliminating bias of our learning algorithms is a very important problem because these algorithms are being asked to help with or to make more and more important decisions in society. In this lecture we saw just one set of ideas for how to go about trying to address this problem, but this is still a very much an ongoing area of active research by many researchers.</p>
                 

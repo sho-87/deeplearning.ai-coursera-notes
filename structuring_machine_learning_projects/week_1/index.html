@@ -999,7 +999,7 @@
 <p><strong>Orthogonalization</strong> in this example refers to the TV designers decision to ensure each nob had one effect on the display and that these effects were <em>relative</em> to one another. If these nobs did more than one action and each actions magnitude was not relative to the other, it would become nearly impossible to tune the TV.</p>
 <p>Take another example, driving a <strong>car</strong>. Imagine if there was multiple joysticks. One joystick modified \(0.3\) X steering angle \(- 0.8\) speed, and another \(2\) X steering angle \(+ 0.9\) speed. In theory, by tuning these two nobs we could drive the car, but this would be <em>much more difficult then separating the inputs into distinct input mechanisms</em>.</p>
 <p><strong>Orthogonal</strong> refers to the idea that the <em>inputs</em> are aligned to the dimensions we want to control.</p>
-<p><a href="https://postimg.cc/image/t547roobz/"><img alt="speed_v_angle_orth.png" src="https://s19.postimg.cc/51dg3e5v7/speed_v_angle_orth.png" /></a></p>
+<p><img alt="speed_v_angle_orth.png" src="../../img/speed-v-angle-orth.png" /></p>
 <p><em>How does this related to machine learning?</em></p>
 <h4 id="chain-of-assumption-in-examples">Chain of assumption in examples</h4>
 <p>For a machine learning system to perform "well", we usually aim to make four things happen:</p>
@@ -1030,15 +1030,15 @@
 </div>
 <p>Lets look at an example.</p>
 <p>As we discussed previously, <strong>applied machine learning</strong> is a very empirical process.</p>
-<p><a href="https://postimg.cc/image/6t6eybcdb/"><img alt="using_a_single_number.png" src="https://s19.postimg.cc/3mbveorxf/using_a_single_number.png" /></a></p>
+<p><img alt="using_a_single_number.png" src="../../img/using-a-single-number.png" /></p>
 <p>Lets say that we start with classifier A, and end up with classifier B after some change to the model. We could look at <strong>precision</strong> and <strong>recall</strong> as a means of improvements. What we really want is to improve <em>both</em> precision and recall. The problem is that it can become difficult to choose the "best" classifier if we are monitoring two different performance metrics, especially when we are making many modifications to our network.</p>
 <p>This is when it becomes important to chose a single performance metric. In this case specifically, we can chose the <strong>F1-score</strong>, the harmonic mean of the precision and recall (less formally, think of this as an average).</p>
-<p><a href="https://postimg.cc/image/uwx6mln4f/"><img alt="chosing_f1_score.png" src="https://s19.postimg.cc/ovzhpj0ib/chosing_f1_score.png" /></a></p>
+<p><img alt="chosing_f1_score.png" src="../../img/chosing-f1-score.png" /></p>
 <p>We can see very quickly that classifier A has a better F1-score, and therefore we chose classifier A over classifier B.</p>
 <h3 id="satisficing-and-optimizing-metric">Satisficing and Optimizing metric</h3>
 <p>It is not always easy to combine all the metrics we care about into a single real-numbered value. Lets introduce <strong>satisficing</strong> and <strong>optimizing</strong> metrics as a solution to this problem.</p>
 <p>Lets say we are building a classifier, and we care about both our <strong>accuracy</strong> (measured as F1-score, traditional accuracy or some other metric) <em>and</em> the <strong>running time</strong> to classify a new example.</p>
-<p><a href="https://postimg.cc/image/aoizsfn67/"><img alt="two_metrics_optimize.png" src="https://s19.postimg.cc/px8x67gur/two_metrics_optimize.png" /></a></p>
+<p><img alt="two_metrics_optimize.png" src="../../img/two-metrics-optimize.png" /></p>
 <p>One thing we can do, is to combine accuracy and run-time into a <strong>single-metric</strong>, possibly by taking a weighted linear sum of the two metrics.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1112,7 +1112,7 @@
 <li>Many of the tasks deep learning is performing well at were thought to be very difficult for machines (e.g. NLP, computer vision). Comparing performance on these tasks to a human baseline is natural.</li>
 </ol>
 <p>It is also instructive to look at the performance of machine learning over time (note this is an obvious abstraction)</p>
-<p><a href="https://postimg.cc/image/wm9ztnwof/"><img alt="ai_progress_over_time.png" src="https://s19.postimg.cc/8ij85de7n/ai_progress_over_time.png" /></a></p>
+<p><img alt="ai_progress_over_time.png" src="../../img/ai-progress-over-time.png" /></p>
 <p>Roughly speaking, performance (e.g., in a research domain or for a certain task) progresses quickly until we reach human-level performance, and tails off quickly. <em>Why?</em> mainly because human level performance is typically very close to the <a href="http://www.wikiwand.com/en/Bayes_error_rate"><strong>Bayes optimal error</strong></a>. Bayes optimal error is the best possible error; there is no way for any function mapping from \(x \rightarrow y\) to do any better. A second reason is that so long as ML performs worse than humans for a given task, we can:</p>
 <ul>
 <li>get labeled data from humans</li>

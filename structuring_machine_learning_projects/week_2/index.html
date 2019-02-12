@@ -1069,7 +1069,7 @@
 <li>improve performance on blurry images</li>
 </ul>
 <p>What can do is create a table, where the <em>rows</em> represent the images we plan on evaluating manually, and the <em>columns</em> represent the categorizes we think the algorithm may be misrecognizing. It is also helpful to add comments describing the the misclassified example.</p>
-<p><img alt="" src="https://i.postimg.cc/7hHSnxTv/Screen-Shot-2018-02-24-at-9-39-51-AM.png" /></p>
+<p><img alt="errror-analysis-table.png" src="../../img/error-analysis-table.png" /></p>
 <p>As you are part-way through this process, you may also notice another common category of mistake, which you can add to this manual evaluation and repeat.</p>
 <p><em>The conclusion of this process is estimates for:</em></p>
 <ul>
@@ -1144,7 +1144,7 @@
 </ol>
 <p>In order to tease out these which of these is conributing to the drop in perfromsnce from our train to dev set, it will be useful to define a new piece of data which we'll call the <strong>training-dev</strong> set: a new subset of data with the same distribution as the training set, but not used for training.</p>
 <p>Heres what we mean, previously we had train/dev/test sets. What we are going to do instead is randomly shuffle the training set and carve out a part of this shuffled set to be the <strong>training-dev</strong>.</p>
-<p><img alt="" src="https://i.postimg.cc/tgHcQmhz/train-dev-set.png" /></p>
+<p><img alt="train-dev-set-.png" src="../../img/train-dev-set.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Just as the dev/test sets have the same distribution, the train-dev set and train set have the same distribution.</p>
@@ -1180,7 +1180,7 @@
 </ul>
 <h3 id="more-general-formulation">More general formulation</h3>
 <p>We can organize these metrics into a table; where the columns are different datasets (if you have more than one) and the rows are the error for examples the algorithm <em>was</em> trained on and examples the algorithm <em>was not</em> trained on.</p>
-<p><img alt="" src="https://i.postimg.cc/3xf5C2Hs/general-error-formation.png" /></p>
+<p><img alt="general-error-formation.png" src="../../img/general-error-formation.png" /></p>
 <h2 id="addressing-data-mismatch">Addressing data mismatch</h2>
 <p>If your training set comes from a different distribution, than your dev and test set, and if error analysis shows you that you have a data mismatch problem, what can you do? Unfortunately, there are not (completely) systematic solutions to this, but let's look at some things you could try.</p>
 <p><em>Some recommendations:</em></p>
@@ -1193,9 +1193,9 @@
 <p>The second point leads us into the idea of <strong>artificial data synthesis</strong></p>
 <h3 id="artificial-data-synthesis">Artificial data synthesis</h3>
 <p>In some cases, we may be able to artificially synthesis data to make up for a lack of real data. For example, we can imagine synthesizing images of cars to supplement a dataset of car images for the task of car recognition in photos.</p>
-<p><a href="https://postimg.cc/image/5rexjq01b/"><img alt="artificial_car_images.png" src="https://s19.postimg.cc/dk5lbp60j/artificial_car_images.png" /></a></p>
+<p><img alt="artificial_car_images.png" src="../../img/artificial-car-images.png" /></p>
 <p>While artificial data synthesis can be a powerful technique for increasing the size of our dataset (and thus the performance of our learning algorithm), we must be wary of overfitting to the synthesized data. Say for example, the set of "all cars" and "synthesized cars" looked as follows:</p>
-<p><a href="https://postimg.cc/image/3mukint9r/"><img alt="artificial_data_venn.png" src="https://s19.postimg.cc/ojqsnbrar/artificial_data_venn.png" /></a></p>
+<p><img alt="artificial_data_venn.png" src="../../img/artificial-data-venn.png" /></p>
 <p>In this case, we run a real risk of our algorithm overfitting to the synthesized images.</p>
 <h2 id="learning-from-multiple-tasks">Learning from multiple tasks</h2>
 <h3 id="transfer-learning">Transfer learning</h3>
@@ -1216,7 +1216,7 @@
 <p class="admonition-title">Note</p>
 <p>Sometimes, we call the process of training on the first dataset <strong>pre-training</strong>, and the process of training on the second dataset <strong>fine-tuning</strong>.</p>
 </div>
-<p><img alt="" src="https://i.postimg.cc/7ZLRxTc5/transfer-learning.png" /></p>
+<p><img alt="transfer-learning.png" src="../../img/transfer-learning.png" /></p>
 <p>The idea is that learning from a very large image data set allows us to transfer some fundamental knowledge for the task of computer vision (i.e., extracting features such as lines/edges, small objects, etc.)</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1241,7 +1241,7 @@
 <p>E.g., a \(0\) at the first index of \(y^{(i)}\) might specify absence of a pedestrian in the image.</p>
 </div>
 <p>Our neural network architecture would then involve a single input and output layer. The twist is that the output layer would have \(j\) number of nodes, one per object we want to recognize.</p>
-<p><img alt="" src="https://i.postimg.cc/Y09rNS0j/multi-task.png" /></p>
+<p><img alt="multi-task.png" src="../../img/multi-task.png" /></p>
 <p>To account for this, our cost function will need to sum over the individual loss functions for each of the objects we wish to recongize:</p>
 <p>\[Cost = \frac{1}{m}\sum^m_{i=1}\sum^m_{j=1}\ell(\hat y_j^{(i)}, y_j^{(i)})\]</p>
 <div class="admonition note">
@@ -1272,7 +1272,7 @@
 <li>Concatenate these phonemes to form words and then transcripts</li>
 </ol>
 <p>In contrast to this step-by-step pipeline, <strong>end-to-end deep learning</strong> seeks to model all these tasks with a single network given a set of inputs.</p>
-<p><img alt="" src="https://i.postimg.cc/wjZRRWKN/step-by-step-vs-end-to-end.png" /></p>
+<p><img alt="step-by-step-vs-end-to-end.png" src="../../img/step-by-step-vs-end-to-end.png" /></p>
 <p>The more traditional, <strong>hand-crafted</strong> approach tends to <em>outperform</em> the <strong>end-to-end approach</strong> when <em>our dataset is small</em>, but this relationship flips as the dataset grows larger. Indeed, one of the biggest barriers to using end-to-end deep learning approaches is that large datasets which map our input to our final downstream task are <em>rare</em>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>

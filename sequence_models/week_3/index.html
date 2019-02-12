@@ -1067,7 +1067,7 @@
 <p>Most of the ideas presented in this lecture are from this <a href="http://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks">paper</a> and this <a href="https://arxiv.org/abs/1406.1078">paper</a>.</p>
 </blockquote>
 <p>First, we build our <strong>encoder</strong>, an RNN (LSTM or GRU) which processes the <em>input</em> sequence. The encoder outputs a vector that represents the learned representation of the input sequence. A <strong>decoder</strong> takes this <em>output</em> sequence, and outputs the translation one word at a time.</p>
-<p><img alt="" src="https://s19.postimg.cc/585mhn4nn/Screen_Shot_2018-06-01_at_1.55.13_PM.png" /></p>
+<p><img alt="many-to-many-clean-2.png" src="../../img/many-to-many-clean-2.png" /></p>
 <blockquote>
 <p>Note that the outputs from each timestep in the decoder network are actually passed as input for the next timestep in the case of language modelling.</p>
 </blockquote>
@@ -1083,7 +1083,7 @@
 <script type="math/tex; mode=display">y: \text{"A cat sitting on a chair"}</script>
 </div>
 <p>Typically, we use a CNN as our <strong>encoder</strong>, without any classification layer at the end. We feed the learned representation to a <strong>decoder</strong>, an RNN, which generates and output sequence which is our image caption.</p>
-<p><a href="https://postimg.cc/image/w49o0izm7/"><img alt="image_captioning.png" src="https://s19.postimg.cc/hxtx5aor7/image_captioning.png" /></a></p>
+<p><img alt="image_captioning.png" src="../../img/image-captioning.png" /></p>
 <h3 id="summary">Summary</h3>
 <ul>
 <li>Simple sequence to sequence (seq2seq) models are comprised of an <strong>encoder</strong> and <strong>decoder</strong>, which themselves are neural networks (typically recurrent or convolutional).</li>
@@ -1094,9 +1094,9 @@
 <p>While there are some similarities between the <strong>sequence to sequence machine translation model</strong> and the <strong>language models</strong> that you have worked within the first week of this course, there are some significant differences as well.</p>
 <h3 id="machine-translation-as-a-conditional-language-model">Machine translation as a conditional language model</h3>
 <p>We can think of machine translation as building a <em>conditional language model</em>. First, recall the language model we worked with previously:</p>
-<p><img alt="" src="https://s19.postimg.cc/driq0vq0j/recall_language_model.png" /></p>
+<p><img alt="recall-language-model.png" src="../../img/recall-language-model.png" /></p>
 <p>The machine translation model looks like:</p>
-<p><img alt="" src="https://s19.postimg.cc/derbupfgj/recall_machine_translation.png" /></p>
+<p><img alt="recall-machine-translation.png" src="../../img/recall-machine-translation.png" /></p>
 <p>Notice that the decoder network looks pretty much identical to the language model. However, instead of the initial hidden state being <span><span class="MathJax_Preview">a^{&lt;t&gt;} = 0</span><script type="math/tex">a^{<t>} = 0</script></span>, the initial hidden state is initialized with the learned representation from the encoder. That is why we can think of this as a <em>conditional language model</em>. Instead of modeling the probability of any sentence, it is now modeling the probability of say, the output English translation, conditioned on some input French sentence.</p>
 <h3 id="finding-the-most-likely-translation">Finding the most likely translation</h3>
 <p>So how does this work in practice? Our model produces the following:</p>
@@ -1231,7 +1231,7 @@
 <p>Note, we are ignoring length normalization here for simplicity. In reality, you would use the entire optimization objective with length normalization instead of just <span><span class="MathJax_Preview">P(y|x)</span><script type="math/tex">P(y|x)</script></span> in your error analysis.</p>
 </blockquote>
 <p>In practice, we might collect some examples of our gold translations (provided by a human) and compare them in a table to the corresponding machine-provided translations, tallying <span><span class="MathJax_Preview">P(y* | x)</span><script type="math/tex">P(y* | x)</script></span> and <span><span class="MathJax_Preview">P(\hat y | x)</span><script type="math/tex">P(\hat y | x)</script></span> for each example. We can then use the rules provided above to assign blame to either the RNN or to beam search in each case:</p>
-<p><a href="https://postimg.cc/image/nxz4orzxr/"><img alt="beam_search_error_analysis.png" src="https://s19.postimg.cc/vdyeaknn7/beam_search_error_analysis.png" /></a></p>
+<p><img alt="beam_search_error_analysis.png" src="../../img/beam-search-error-analysis.png" /></p>
 <p>Through this process, you can carry out error analysis to figure out what fraction of errors are due to <em>beam search</em> versus the <em>RNN model</em>. For every example in your dev sets where the algorithm gives a much worse output than the human translation, you can try to ascribe the error to either the search algorithm or to the objective function, or to the RNN model that generates the objective function that beam search is supposed to be maximizing. If you find that beam search is responsible for a lot of errors, then maybe it is worth increasing the beam width. Whereas in contrast, if you find that the RNN model is at fault, you could do a deeper layer of analysis to try to figure out if you want to add regularization, or get more training data, or try a different network architecture, or something else.</p>
 <h2 id="sequence-models-attention-mechanism-attention-model-intuition">Sequence models &amp; Attention mechanism: Attention Model Intuition</h2>
 <p>For most of this week, we have been looking at seq2seq models. A simple modification to this architecture makes it much more powerful, lets take a look.</p>
@@ -1245,7 +1245,7 @@
 <p>Example output (translated sentence)</p>
 </blockquote>
 <p>Now, the way a human translator would translate this sentence is <em>not</em> by reading and memorizing the entire sentence before beginning translation. Instead, the human translator would read the sentence bit-by-bit, translating words as they go, and paying special attention to certain parts of the input sentence when deciding what the ouput sentence should be. For the seq2seq architecture we introduced earlier, we finde that it works quite well for short sentences, but for very long sentences (maybe longer than 30 or 40 words) performance drops.</p>
-<p><a href="https://postimg.cc/image/4meyki473/"><img alt="bleu_score_with_attention.png" src="https://s19.postimg.cc/n1zfhwibn/bleu_score_with_attention.png" /></a></p>
+<p><img alt="bleu_score_with_attention.png" src="../../img/bleu-score-with-attention.png" /></p>
 <blockquote>
 <p>Short sentences are just hard to translate in general due to the lack of context. For long sentences, the vanilla seq2seq model doesn't do well because it's difficult to for the network to memorize a very long sentence. Blue line: seq2seq architectures without attention, Green line: seq2seq architectures with attention.</p>
 </blockquote>
@@ -1261,7 +1261,7 @@
 </blockquote>
 <p>Note that attention is typically more useful for longer sequences, but for the purposes of illustration we will use a rather short one.</p>
 <p>Say that we use a bi-directional RNN to compute some sort of rich feature set for a given input. Lets introduce a new notation: <span><span class="MathJax_Preview">\alpha^{&lt;i, j&gt;}</span><script type="math/tex">\alpha^{<i, j>}</script></span> can be thought of as an attention measure, e.g., when we are looking to produce the translated word <span><span class="MathJax_Preview">i</span><script type="math/tex">i</script></span> in the output sequence, how much <em>attention</em> should we pay to the word <span><span class="MathJax_Preview">j</span><script type="math/tex">j</script></span> in the input sequence? Broadly speaking, our decoder takes these measures of attention, along with the output from the encoder network to compute a new input that it uses when determining its outputs. More specifically, <span><span class="MathJax_Preview">\alpha^{&lt;i, j&gt;}</span><script type="math/tex">\alpha^{<i, j>}</script></span> is influenced by the forward and backward activations of the encoder network at timestep <span><span class="MathJax_Preview">i</span><script type="math/tex">i</script></span> and the output from the previous timestep of the decoder network, <span><span class="MathJax_Preview">S^{&lt;t-1&gt;}</span><script type="math/tex">S^{<t-1>}</script></span>.</p>
-<p><a href="https://postimg.cc/image/q3zv301j3/"><img alt="attention_model_intuition.png" src="https://s19.postimg.cc/sy30gg3pf/attention_model_intuition.png" /></a></p>
+<p><img alt="attention_model_intuition.png" src="../../img/attention-model-intuition.png" /></p>
 <blockquote>
 <p>Note, we have denoted the activations of the decoder network as <span><span class="MathJax_Preview">S^{&lt;t&gt;}</span><script type="math/tex">S^{<t>}</script></span> to avoid confusion.</p>
 </blockquote>
@@ -1270,7 +1270,7 @@
 <p>In the last lecture, we saw how the attention model allows a neural network to pay attention to only part of an input sentence while it's generating a translation, much like a human translator might. Let's now formalize that intuition, and see how we might implement this attention model ourselves.</p>
 <h3 id="attention-model">Attention model</h3>
 <p>Similar to the last lecture, lets assume we have a bi-directional RNN (be it LSTM or GRU) that we use to compute features for the input sequence.</p>
-<p><a href="https://postimg.cc/image/qt5scfldr/"><img alt="attention_detail_fb.png" src="https://s19.postimg.cc/w4kox57gj/attention_detail_fb.png" /></a></p>
+<p><img alt="attention_detail_fb.png" src="../../img/attention-detail-fb.png" /></p>
 <p>To simplify the notation, at every timestep we are going to denote the activations for both the forward and backward recurrent networks as <span><span class="MathJax_Preview">a^{&lt;t&gt;}</span><script type="math/tex">a^{<t>}</script></span>, such that:</p>
 <div>
 <div class="MathJax_Preview">a^{&lt;t'&gt;} = (\overrightarrow{a}^{&lt;t'&gt;}, \overleftarrow{a}^{&lt;t'&gt;})</div>
@@ -1291,7 +1291,7 @@
 <script type="math/tex; mode=display">c^{<2>} = \sum_{t'} \alpha^{<2, t'>}a^{<t'>}</script>
 </div>
 <p>And so forth and so on.</p>
-<p><a href="https://postimg.cc/image/obu155m1r/"><img alt="attention_detail_complete.png" src="https://s19.postimg.cc/j0f4kfzz7/attention_detail_complete.png" /></a></p>
+<p><img alt="attention_detail_complete.png" src="../../img/attention-detail-complete.png" /></p>
 <p>The only thing left to define is how we <em>actually</em> compute the attention weights, <span><span class="MathJax_Preview">\alpha^{&lt;t, t'&gt;}</span><script type="math/tex">\alpha^{<t, t'>}</script></span></p>
 <h4 id="computing-attentions-alphat-talphat-t">Computing attentions <span><span class="MathJax_Preview">\alpha^{&lt;t, t'&gt;}</span><script type="math/tex">\alpha^{<t, t'>}</script></span></h4>
 <p>Let us first present the formula and then explain it:</p>
@@ -1303,7 +1303,7 @@
 <p>It is helpful to keep in mind that <span><span class="MathJax_Preview">\alpha^{&lt;t, t'&gt;}</span><script type="math/tex">\alpha^{<t, t'>}</script></span> is the amount of "attention" that <span><span class="MathJax_Preview">y^{&lt;t&gt;}</span><script type="math/tex">y^{<t>}</script></span> should pay to <span><span class="MathJax_Preview">a^{&lt;t'&gt;}</span><script type="math/tex">a^{<t'>}</script></span></p>
 </blockquote>
 <p>We first compute <span><span class="MathJax_Preview">e^{&lt;t, t'&gt;}</span><script type="math/tex">e^{<t, t'>}</script></span> and then use what is essentially a softmax over all <span><span class="MathJax_Preview">t'</span><script type="math/tex">t'</script></span> to guarantee that <span><span class="MathJax_Preview">\alpha^{&lt;t, t'&gt;}</span><script type="math/tex">\alpha^{<t, t'>}</script></span> sums to zero over all <span><span class="MathJax_Preview">t'</span><script type="math/tex">t'</script></span>. But how do we compute <span><span class="MathJax_Preview">e^{&lt;t, t'&gt;}</span><script type="math/tex">e^{<t, t'>}</script></span>? Typically we use a small neural network that looks something like the following:</p>
-<p><a href="https://postimg.cc/image/whc33auv3/"><img alt="attention_how_to_learn_attention_weights.png" src="https://s19.postimg.cc/vrtaqxubn/attention_how_to_learn_attention_weights.png" /></a></p>
+<p><img alt="attention_how_to_learn_attention_weights.png" src="../../img/attention-how-to-learn-attention-weights.png" /></p>
 <p>The intuition is, if you want to decide how much attention to pay to the activation of <span><span class="MathJax_Preview">t'</span><script type="math/tex">t'</script></span>, we should depend on the hidden state activation from the previous time step, <span><span class="MathJax_Preview">S^{&lt;t-1&gt;}</span><script type="math/tex">S^{<t-1>}</script></span> and the learned features of the word at <span><span class="MathJax_Preview">t'</span><script type="math/tex">t'</script></span>, <span><span class="MathJax_Preview">a^{&lt;t'&gt;}</span><script type="math/tex">a^{<t'>}</script></span>. What we don't know is the exact function which takes in (<span><span class="MathJax_Preview">S^{&lt;t-1&gt;}, a^{&lt;t'&gt;}</span><script type="math/tex">S^{<t-1>}, a^{<t'>}</script></span>) and maps it to <span><span class="MathJax_Preview">e^{&lt;t, t'&gt;}</span><script type="math/tex">e^{<t, t'>}</script></span>. Therefore, we use a small neural network to learn this function for us.</p>
 <blockquote>
 <p>The network MUST be small as we need to use it to make a prediction at every timestep <span><span class="MathJax_Preview">t</span><script type="math/tex">t</script></span>.</p>
@@ -1314,14 +1314,14 @@
 <h3 id="speech-recognition-problem">Speech recognition problem</h3>
 <p>In speech recognition, produce a transcript <span><span class="MathJax_Preview">y</span><script type="math/tex">y</script></span> given an audio clip, <span><span class="MathJax_Preview">x</span><script type="math/tex">x</script></span>. The audio transcript is generated from a microphone (i.e., someone speaks into a microphone, speech, like all sound, is a pressure wave which the microphone pics up on and generates a spectrum).</p>
 <p>In truth, even the human brain doesn't process <em>raw sound</em>. We typically perform a series of pre-processing steps, eventually generating a spectrogram, a 3D representation of sound (x: time, y: frequency, z: amplitude)</p>
-<p><a href="https://postimg.cc/image/eh2vywn8f/"><img alt="speech_recognition_problem.png" src="https://s19.postimg.cc/rxzuhrxk3/speech_recognition_problem.png" /></a></p>
+<p><img alt="speech_recognition_problem.png" src="../../img/speech-recognition-problem.png" /></p>
 <blockquote>
 <p>The human ear performs something similar to this preprocessing.</p>
 </blockquote>
 <p>Traditionally, speech recognition was solved by first learning to classify <strong>phonemes</strong> (typically we expensive feature engineering), the individual units of speech. However, with more powerful end-to-end architectures we are finding that explicit phoneme recognition is no longer necessary, or even a good idea. With these arcitectures, a large amount of data is especially important. A large academic dataset may be around 3000h of speech, while commercial systems (e.g. Alex) may be trained on datasets containing as many as 100,000h of speech.</p>
 <h3 id="attention-model-for-speech-recognition">Attention model for speech recognition</h3>
 <p>One way to build a speech recognition system is to use the seq2seq model with attention that we explored previously, where the audio clip (divided into small timeframes) is the input and the audio transcript is the output</p>
-<p><a href="https://postimg.cc/image/yboxl07kv/"><img alt="seq2seq_attention_model_clean.png" src="https://s19.postimg.cc/us2zv74v7/seq2seq_attention_model_clean.png" /></a></p>
+<p><img alt="seq2seq_attention_model_clean-2.png" src="../../img/seq2seq-attention-model-clean-2.png" /></p>
 <h3 id="ctc-cost-for-speech-recognition">CTC cost for speech recognition</h3>
 <p>Lets say our audio clip is someone saying the sentence "the quick brown fox". Typically in speech recognition, the length of our input sequence is much much larger than the length of our output sequence.</p>
 <blockquote>
@@ -1350,7 +1350,7 @@
 <p><strong>Trigger word detection</strong> systems are used to identify <strong>wake</strong> (or trigger) <strong>words</strong> (e.g. "Hey Google", "Alexa"), typically for digital assistants like Alexa, Google Home and Siri.</p>
 <p>The literature on trigger word detection is still evolving, and there is not widespread consensus or a universally agreed upon algorithm for trigger detection. We are just going to look at one example.</p>
 <p>Our task is to take an audio clip, possibly perform preprocessing to compute a spectrogram and then the features that we will eventually pass to an RNN, and predict at which timesteps the wake word was uttered. One strategy, is to have the neural network output the label 0 for all timesteps before a wake word is mentioned and then 1 directly after it is mentioned. The slight problem with this is that our training set becomes very unbalanced (many more 0's than 1's). Instead, we typically have the model predict a few 1's for the timesteps that come directly after the wake word was mentioned.</p>
-<p><a href="https://postimg.cc/image/7dv0j8s2n/"><img alt="trigger_word_detection.png" src="https://s19.postimg.cc/sar8nwq3n/trigger_word_detection.png" /></a></p>
+<p><img alt="trigger_word_detection.png" src="../../img/trigger-word-detection.png" /></p>
                 
                   
                 

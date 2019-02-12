@@ -760,7 +760,7 @@
 <p>Lets take the example of image recognition. Perhaps you input a picture of a face, then you can think of the first layer of the neural network as an "edge detector".</p>
 <p>The next layer can use the outputs from the previous layer, which can roughly be thought of as detected edges, and "group" them in order to detect parts of faces. Each neuron may become tuned to detect different parts of faces.</p>
 <p>Finally, the output layer uses the output of the previous layer, detected features of a face, and compose them together to recognize a whole face.</p>
-<p><a href="https://postimg.cc/image/slpz8zvlr/"><img alt="deep_representations.png" src="https://s19.postimg.cc/57hzx2doj/deep_representations.png" /></a></p>
+<p><img alt="deep_representations.png" src="../../img/deep-representations.png" /></p>
 <blockquote>
 <p>The main intuition is that earlier layers detect "simpler" structures, and pass this information onto the next layer which can use it to detect increasingly complex structures.</p>
 </blockquote>
@@ -772,7 +772,7 @@
 </blockquote>
 <h3 id="building-blocks-of-deep-neural-networks">Building blocks of deep neural networks</h3>
 <p>Lets take a more holistic approach and talk about all the building blocks of deep neural networks. Here is a deep neural network with a few hidden layers</p>
-<p><a href="https://postimg.cc/image/fgkkwtgun/"><img alt="simple_deep_nn_2.png" src="https://s19.postimg.cc/wtuvboc5v/simple_deep_nn_2.png" /></a></p>
+<p><img alt="simple_deep_nn_2.png" src="../../img/simple-deep-nn-2.png" /></p>
 <p>Lets pick one layer, \(l\) and look at the computations involved.</p>
 <p>For this layer \(l\), we have parameters \(W^{[l]}\) and \(b^{[l]}\). Our two major computation steps through this layer are:</p>
 <p><strong>Forward Propagation</strong></p>
@@ -789,7 +789,7 @@
 <li>Output: \(da^{[l-1]}, dW^{[l]}, db^{[l]}\)</li>
 </ul>
 <p>The key insight, is that for every computation in forward propagation there is a corresponding computation in backwards propagation</p>
-<p><a href="https://postimg.cc/image/ct3ctjjnz/"><img alt="forward_backward.png" src="https://s19.postimg.cc/nfx5yyrtf/forward_backward.png" /></a></p>
+<p><img alt="forward_backward.png" src="../../img/forward-backward.png" /></p>
 <p>So one iteration of training with a neural network involves feeding our inputs into the network (\(a^{[0]})\), performing forward propagation computing \(\hat y\), and using it to compute the loss and perform backpropagation through the network. This will produce all the derivatives of the parameters w.r.t the loss that we need to update the parameters for gradient descent.</p>
 <h3 id="parameters-vs-hyperparameters">Parameters vs hyperparameters</h3>
 <p>The <strong>parameters</strong> of your model are the <em>adaptive</em> values, \(W\) and \(b\) which are <em>learned</em> during training via gradient descent.</p>

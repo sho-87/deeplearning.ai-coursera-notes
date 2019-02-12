@@ -1113,7 +1113,7 @@
 <h2 id="recurrent-neural-network-model">Recurrent Neural Network Model</h2>
 <h3 id="why-not-a-standard-network">Why not a standard network?</h3>
 <p>In our previous example, we had 9 input words. You could imagine taking these 9 input words (represented as one-hot encoded vectors) as inputs to a "standard" neural network</p>
-<p><img alt="" src="https://s19.postimg.cc/x6zs848qr/Screen_Shot_2018-05-31_at_7.33.26_PM.png" /></p>
+<p><img alt="standard-nn-for-rnn.png" src="../../img/standard-nn-for-rnn.png" /></p>
 <p>This turns out <em>not</em> to work well. There are two main problems:</p>
 <ol>
 <li>Inputs and outputs can be different <strong>lengths</strong> in different examples (its not as if every <span><span class="MathJax_Preview">T_x, T_y</span><script type="math/tex">T_x, T_y</script></span> pair is of the same length).</li>
@@ -1121,13 +1121,13 @@
 </ol>
 <h3 id="recurrent-neural-networks">Recurrent Neural Networks</h3>
 <p>Unlike a "standard" neural network, <strong>recurrent neural networks</strong> (<strong>RNN</strong>) accept input from the <em>previous</em> timestep in a sequence. For our example <span><span class="MathJax_Preview">x</span><script type="math/tex">x</script></span> above, the <em>unrolled</em> RNN diagram might look like the following:</p>
-<p><img alt="" src="https://s19.postimg.cc/zaa7gd103/Screen_Shot_2018-05-31_at_7.56.19_PM.png" /></p>
+<p><img alt="RNN-hand-drawn.png" src="../../img/RNN-hand-drawn.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Timestep 0 is usually initialized with a fake vector of 0's</p>
 </div>
 <p>Note that the diagram is sometimes drawn like this:</p>
-<p><img alt="" src="https://s19.postimg.cc/db3st5rvn/Screen_Shot_2018-05-31_at_7.50.01_PM.png" /></p>
+<p><img alt="RNN-single-hand-drawn.png" src="../../img/RNN-single-hand-drawn.png" /></p>
 <p>Where the little black box represented a delay of <em>1 timestep</em>.</p>
 <p>A RNN learns on a sequence from <em>left to right</em>, <strong>sharing</strong> the parameters from <strong>each timestep</strong>.</p>
 <ul>
@@ -1148,7 +1148,7 @@
 <p>And the task of <strong>named entity recognition</strong> (<strong>NER</strong>), it would be really useful to know that the word "<em>President</em>" follows the name "<em>Teddy Roosevelt</em>" because as the second example suggest, using only <em>previous</em> information in the sequence might not be enough to make a classification decision about an entity.</p>
 <h4 id="rnn-computation">RNN Computation</h4>
 <p>Lets dig deeper into how a RNN works. First, lets start with a cleaned up depiction of our network</p>
-<p><img alt="" src="https://s19.postimg.cc/67vxdf4er/Screen_Shot_2018-06-01_at_10.06.12_AM.png" /></p>
+<p><img alt="standard-nn-for-rnn-example.png" src="../../img/standard-nn-for-rnn-example.png" /></p>
 <h5 id="forward-propagation">Forward Propagation</h5>
 <p>Typically, we start off with the input <span><span class="MathJax_Preview">a^{&lt;0&gt;} = \vec 0</span><script type="math/tex">a^{<0>} = \vec 0</script></span>. Then we perform our forward pass</p>
 <ul>
@@ -1207,7 +1207,7 @@
 <h3 id="forward-propagation_1">Forward propagation</h3>
 <p>We have seen at a high-level how forward propagation works for an RNN. Essentially, we forward propagate the input, multiplying it by our weight matrices and applying our activation for each timestep until we have outputted a prediction for each timestep in the input sequence.</p>
 <p>More explicitly, we can represent the process of foward propogation as a series of matrix multiplications in diagram form:</p>
-<p><img alt="" src="https://s19.postimg.cc/u058ol3r7/Screen_Shot_2018-06-01_at_1.06.39_PM.png" /></p>
+<p><img alt="forward-prop-rnns.png" src="../../img/forward-prop-rnns.png" /></p>
 <h3 id="backward-propogation-through-time-bptt">Backward propogation through time (BPTT)</h3>
 <p>In order to perform <strong>backward propagation through time</strong> (<strong>BPTT</strong>), we first have to specify a loss function. We will choose <strong>cross-entropy</strong> loss (we also saw this when discussing logisitc regression):</p>
 <p><em>For a single prediction (timestep)</em></p>
@@ -1221,31 +1221,31 @@
 <script type="math/tex; mode=display">\ell = \sum_{t=1}^{T_y}\ell^{<t>}(\hat y^{<t>}, y^{<t>})</script>
 </div>
 <p>While not covered in detail here, BPTT simply involves applying our loss function to each prediction at each timestep, and then using this information along with the chain rule to compute the gradients we will need to update our parameters and <em>assign blame proportionally</em>. The entire process might look something like the following:</p>
-<p><img alt="" src="https://s19.postimg.cc/44li5lc9v/Screen_Shot_2018-06-01_at_1.17.38_PM.png" /></p>
+<p><img alt="BPTT.png" src="../../img/BPTT.png" /></p>
 <h2 id="different-types-of-rnns">Different types of RNNs</h2>
 <p>So far, we have only seen an RNN where the input and output are both sequences of lengths <span><span class="MathJax_Preview">\gt 1</span><script type="math/tex">\gt 1</script></span>. Particularly, our input and output sequences were of the same length (<span><span class="MathJax_Preview">T_x == T_y</span><script type="math/tex">T_x == T_y</script></span>), For many applications, <span><span class="MathJax_Preview">T_x \not = T_y</span><script type="math/tex">T_x \not = T_y</script></span>.</p>
 <p>Take <strong>sentiment classification</strong> for example, where the input is typically a sequence (of text) and the output a integer scale (a 1-5 star review, for example).</p>
 <p><em>Example</em>:</p>
 <p><span><span class="MathJax_Preview">x</span><script type="math/tex">x</script></span>: "There is nothing to like in this movie"</p>
 <p>We want our network to output a single prediction from 1-5. This is an example of a <strong>many-to-one</strong> architecture.</p>
-<p><img alt="" src="https://s19.postimg.cc/qukmyfy0j/Screen_Shot_2018-06-01_at_1.32.36_PM.png" /></p>
+<p><img alt="many-to-one.png" src="../../img/many-to-one.png" /></p>
 <p>Another type of RNN architecture is <strong>one-to-many</strong>. An example of this architecture is <strong>music generation</strong>, where we might input an integer (indicating a genre) or the 0-vector (no input) and generate musical notes as our output. In this case, we input a single value to the network at timestep 1, and then propagate that input through the network (the remaining timesteps), with the caveat that in this architecture, we often take the ouput from the previous timestep and feed it to the next timestep:</p>
-<p><img alt="" src="https://s19.postimg.cc/4imu5141f/Screen_Shot_2018-06-01_at_1.39.52_PM.png" /></p>
+<p><img alt="one-to-many.png" src="../../img/one-to-many.png" /></p>
 <p>The final example is a <strong>many-to-many</strong> architecture. Unlike our previous example where <span><span class="MathJax_Preview">T_x == T_y</span><script type="math/tex">T_x == T_y</script></span>, in machine translation <span><span class="MathJax_Preview">T_x \not = T_y</span><script type="math/tex">T_x \not = T_y</script></span>, as the number of words in the input sentence (say, in <em>english</em>) is not necessarily the same as the output sentence (say, in <em>french</em>). These problems are typicaly solved with <strong>sequence to sequence models</strong>, that are composed of distinct <strong>encoder</strong> and <strong>decoder</strong> RNNs.</p>
-<p><img alt="" src="https://s19.postimg.cc/mlfwwes83/Screen_Shot_2018-06-01_at_1.47.32_PM.png" /></p>
+<p><img alt="seq2seq-machine-translation-ex.png" src="../../img/seq2seq-machine-translation-ex.png" /></p>
 <h3 id="summary-of-rnn-types">Summary of RNN types</h3>
 <ol>
 <li><strong>One-to-one</strong>: a standard, generic neural network. Strictly speaking, you wouldn't model this problem with an RNN.</li>
 </ol>
-<p><img alt="" src="https://s19.postimg.cc/g7qtta5df/Screen_Shot_2018-06-01_at_1.49.36_PM.png" /></p>
+<p><img alt="one-to-one.png" src="../../img/one-to-one.png" /></p>
 <ol>
 <li><strong>One-to-many</strong>: Where our input is a single value (or in some cases, a null input represented by the 0-vector) which propogates through the network and our output is a sequence. Often, we use the prediction from the previous timestep when computing the hidden activations. An example is <em>music generation</em> or <em>sequence generation</em> more generally.</li>
 </ol>
-<p><img alt="" src="https://s19.postimg.cc/efxuyd6kz/Screen_Shot_2018-06-01_at_1.51.52_PM.png" /></p>
+<p><img alt="one-to-many-clean.png" src="../../img/one-to-many-clean.png" /></p>
 <ol>
 <li><strong>Many-to-one</strong>: Where our input is a sequence and our output is a single value. Typically we take the prediction from the last timestep of the RNN. An example is <em>sentiment classification</em></li>
 </ol>
-<p><img alt="" src="https://s19.postimg.cc/9u1qq0dc3/Screen_Shot_2018-06-01_at_1.53.11_PM.png" /></p>
+<p><img alt="many-to-one-clean.png" src="../../img/many-to-one-clean.png" /></p>
 <ol>
 <li>
 <p><strong>Many-to-many</strong>: Where both our input and outputs are sequences. These sequence are not necessarily the same length (<span><span class="MathJax_Preview">T_x \not = T_y</span><script type="math/tex">T_x \not = T_y</script></span>).</p>
@@ -1254,11 +1254,11 @@
 <p>When <span><span class="MathJax_Preview">T_x == T_y</span><script type="math/tex">T_x == T_y</script></span> our architecture looks like a standard RNN:</p>
 </li>
 </ol>
-<p><img alt="" src="https://s19.postimg.cc/5xoetzxhf/Screen_Shot_2018-06-01_at_1.55.17_PM.png" /></p>
+<p><img alt="many-to-many-clean.png" src="../../img/many-to-many-clean.png" /></p>
 <ul>
 <li>and when <span><span class="MathJax_Preview">T_x \not = T_y</span><script type="math/tex">T_x \not = T_y</script></span> are architecture is a <em>sequence to sequence</em> model which looks like:</li>
 </ul>
-<p><img alt="" src="https://s19.postimg.cc/585mhn4nn/Screen_Shot_2018-06-01_at_1.55.13_PM.png" /></p>
+<p><img alt="many-to-many-clean-2.png" src="../../img/many-to-many-clean-2.png" /></p>
 <h2 id="language-model-and-sequence-generation">Language model and sequence generation</h2>
 <p><strong>Language modeling</strong> is one of the most basic and important tasks in natural language processing. It's also one that RNNs handle very well.</p>
 <h3 id="what-is-a-language-modeling">What is a language modeling?</h3>
@@ -1298,7 +1298,7 @@
 <p>Just a note here, we are choosing <span><span class="MathJax_Preview">x^{&lt;t&gt;} = y^{&lt;t-1&gt;}</span><script type="math/tex">x^{<t>} = y^{<t-1>}</script></span> <em>NOT</em> <span><span class="MathJax_Preview">x^{&lt;t&gt;} = \hat y^{&lt;t-1&gt;}</span><script type="math/tex">x^{<t>} = \hat y^{<t-1>}</script></span></p>
 </div>
 <p>The full model looks something like:</p>
-<p><a href="https://postimg.cc/image/sqgm18ty7/"><img alt="Screen_Shot_2018-06-01_at_6.40.05_PM.png" src="https://s19.postimg.cc/5c8mpbc0z/Screen_Shot_2018-06-01_at_6.40.05_PM.png" /></a></p>
+<p><img alt="RNN-language-model.png" src="../../img/RNN-language-model.png" /></p>
 <p>There are two important steps in this process:</p>
 <ol>
 <li>Estimate <span><span class="MathJax_Preview">\hat y^{&lt;t&gt;} = P(y^{&lt;t&gt;} | y^{&lt;1&gt;}, y^{&lt;2&gt;}, ..., y^{&lt;t-1&gt;})</span><script type="math/tex">\hat y^{<t>} = P(y^{<t>} | y^{<1>}, y^{<2>}, ..., y^{<t-1>})</script></span></li>
@@ -1324,7 +1324,7 @@
 <p>For example, if we sampled "the" in the first timestep, we would set <span><span class="MathJax_Preview">\hat y^{&lt;1&gt;} = the = x^{&lt;2&gt;}</span><script type="math/tex">\hat y^{<1>} = the = x^{<2>}</script></span>. This means that at the second timestep, we are computing a probability distribution <span><span class="MathJax_Preview">P(v | the)</span><script type="math/tex">P(v | the)</script></span> over all tokens <span><span class="MathJax_Preview">v</span><script type="math/tex">v</script></span> in our vocabulary <span><span class="MathJax_Preview">V</span><script type="math/tex">V</script></span>.</p>
 </div>
 <p>The entire procedure looks something like:</p>
-<p><a href="https://postimg.cc/image/cf7rww47z/"><img alt="Screen_Shot_2018-06-02_at_12.31.59_PM.png" src="https://s19.postimg.cc/c2gdqplyb/Screen_Shot_2018-06-02_at_12.31.59_PM.png" /></a></p>
+<p><img alt="sequence-generation-hand-drawn.png" src="../../img/sequence-generation-hand-drawn.png" /></p>
 <p><em>How do we know when the sequence ends</em>?</p>
 <p>If we included the <EOS> token in our training procedure (and this included it in our vocabulary) the sequence ends when and &lt;EOS> token is generated. Otherwise, stop when a pre-determined number of tokens has been reached.</p>
 <p><em>What if we generate an &lt;UNK> token</em>?</p>
@@ -1339,7 +1339,7 @@
 </div>
 <h2 id="vanishing-gradients-with-rnns">Vanishing gradients with RNNs</h2>
 <p>One of the problems with the basic RNN algorithm is the <strong>vanishing gradient problem</strong>. The RNN architecture as we have described it so far:</p>
-<p><a href="https://postimg.cc/image/th0lz2be7/"><img alt="Screen_Shot_2018-06-02_at_12.57.39_PM.png" src="https://s19.postimg.cc/xddxv1wdv/Screen_Shot_2018-06-02_at_12.57.39_PM.png" /></a></p>
+<p><img alt="rnn-clean.png" src="../../img/rnn-clean.png" /></p>
 <p>Take the following two input examples:</p>
 <div>
 <div class="MathJax_Preview">x^{(1)} = \text{The cat, which already ate ..., was full}</div>
@@ -1372,7 +1372,7 @@
 <script type="math/tex; mode=display">a^{<t>} = g(W_a[a^{<t-1>}, x^{<t>}] + b_a)</script>
 </div>
 <p>As a picture:</p>
-<p><a href="https://postimg.cc/image/ceczul8fj/"><img alt="rnn_unit_hand_drawn.png" src="https://s19.postimg.cc/5nwil5l9v/rnn_unit_hand_drawn.png" /></a></p>
+<p><img alt="rnn_unit_hand_drawn.png" src="../../img/rnn-unit-hand-drawn.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Two papers were important for the development of GRUs: <a href="https://arxiv.org/pdf/1406.1078v3.pdf">Cho et al., 2014</a> and <a href="https://arxiv.org/pdf/1412.3555.pdf">Chung et al., 2014</a>.</p>
@@ -1414,7 +1414,7 @@
 </div>
 <p>For our example sentence above, we might hope that the GRU would set <span><span class="MathJax_Preview">\Gamma_u = 1</span><script type="math/tex">\Gamma_u = 1</script></span> once it reached "<em>cats</em>", and then <span><span class="MathJax_Preview">\Gamma_u = 0</span><script type="math/tex">\Gamma_u = 0</script></span> for every other timestep until it reached "<em>was</em>", where it might set <span><span class="MathJax_Preview">\Gamma_u = 1</span><script type="math/tex">\Gamma_u = 1</script></span> again. Think of this as the network memorizing the grammatical number of the <strong>subject</strong> of the sentence in order to determine the number of its verb, a concept known as <strong>agreement</strong>.</p>
 <p>As a picture:</p>
-<p><a href="https://postimg.cc/image/v83e5cj6n/"><img alt="gru_unit_hand_drawn.png" src="https://s19.postimg.cc/3xi2xfg9v/gru_unit_hand_drawn.png" /></a></p>
+<p><img alt="gru_unit_hand_drawn.png" src="../../img/gru-unit-hand-drawn.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The purple box just represents our calculation of <span><span class="MathJax_Preview">c^{&lt;t&gt;}</span><script type="math/tex">c^{<t>}</script></span></p>
@@ -1527,13 +1527,13 @@
 </div>
 <p>Notice that with LSTMs, <span><span class="MathJax_Preview">a^{&lt;t&gt;} \not = c^{&lt;t&gt;}</span><script type="math/tex">a^{<t>} \not = c^{<t>}</script></span>. One new property of the LSTM is that instead of <em>one</em> update gate, <span><span class="MathJax_Preview">\Gamma_u</span><script type="math/tex">\Gamma_u</script></span>, we have <em>two</em> update gates, <span><span class="MathJax_Preview">\Gamma_u</span><script type="math/tex">\Gamma_u</script></span> and <span><span class="MathJax_Preview">\Gamma_f</span><script type="math/tex">\Gamma_f</script></span> (for <strong>update</strong> and <strong>forget</strong> respectively). This gives the memory cell the option of keeping the old memory cell information <span><span class="MathJax_Preview">c^{&lt;t-1&gt;}</span><script type="math/tex">c^{<t-1>}</script></span> and just adding to it some new information <span><span class="MathJax_Preview">\tilde c^{&lt;t&gt;}</span><script type="math/tex">\tilde c^{<t>}</script></span>.</p>
 <p>We can represent the LSTM unit in diagram form as follows:</p>
-<p><a href="https://postimg.cc/image/f6gixd127/"><img alt="lstm_unit_clean.png" src="https://s19.postimg.cc/6bfomuc9v/lstm_unit_clean.png" /></a></p>
+<p><img alt="lstm_unit_clean.png" src="../../img/lstm-unit-clean.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>See <a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">here</a> for an more detailed explanation of an LSTM unit.</p>
 </div>
 <p>One thing you may notice is that if we draw out multiple units in temporal succession, it becomes clear how the LSTM is able to achieve something akin to "memory" over a sequence:</p>
-<p><a href="https://postimg.cc/image/mz76pcer3/"><img alt="multiple_lstm_units_clean.png" src="https://s19.postimg.cc/iq2gn6bhv/multiple_lstm_units_clean.png" /></a></p>
+<p><img alt="multiple_lstm_units_clean.png" src="../../img/multiple-lstm-units-clean.png" /></p>
 <h3 id="modifications-to-lstms">Modifications to LSTMs</h3>
 <p>There are many modifications to the LSTM described above. One involves including <span><span class="MathJax_Preview">c^{&lt;t-1&gt;}</span><script type="math/tex">c^{<t-1>}</script></span> along with <span><span class="MathJax_Preview">a^{&lt;t-1&gt;}, x^{&lt;t&gt;}</span><script type="math/tex">a^{<t-1>}, x^{<t>}</script></span> in the gate computations, known as a <strong>peephole connection</strong>. This allows for the gate values to depend not just on the input and the previous timesteps activation, but also on the previous timesteps value of the memory cell.</p>
 <h2 id="bidirectional-rnns-brnns">Bidirectional RNNs (BRNNs)</h2>
@@ -1542,13 +1542,13 @@
 <p><span><span class="MathJax_Preview">x^{(1)}</span><script type="math/tex">x^{(1)}</script></span>: <em>He said, "Teddy Roosevelt was a great President"</em></p>
 <p><span><span class="MathJax_Preview">x^{(2)}</span><script type="math/tex">x^{(2)}</script></span>: <em>He said, "Teddy bears are on sale!"</em></p>
 <p>Recall, that for the task of NER we established that correctly predicting the token <em>Teddy</em> as a <em>person</em> entity without seeing the words that follow it would be difficult.</p>
-<p><a href="https://postimg.cc/image/m0vf0q67j/"><img alt="rnn_teddy_example.png" src="https://s19.postimg.cc/i4i34ql83/rnn_teddy_example.png" /></a></p>
+<p><img alt="rnn_teddy_example.png" src="../../img/rnn-teddy-example.png" /></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Note: this problem is independent of whether these are standard RNN, GRU, or LSTM units.</p>
 </div>
 <p>A solution to this problem is to introduce another RNN in the opposite direction, going <em>backwards</em> in time.</p>
-<p><a href="https://postimg.cc/image/o5fs1t04f/"><img alt="bidirectional_rnn.png" src="https://s19.postimg.cc/99h8u7opv/bidirectional_rnn.png" /></a></p>
+<p><img alt="bidirectional_rnn.png" src="../../img/bidirectional-rnn.png" /></p>
 <p>During forward propogation, we compute activations as we have seen previously, with key difference being that we learn two series of activations: one from <em>left-to-right</em> <span><span class="MathJax_Preview">\overrightarrow a^{&lt;t&gt;}</span><script type="math/tex">\overrightarrow a^{<t>}</script></span> and one from <em>right-to-left</em> <span><span class="MathJax_Preview">\overleftarrow a^{&lt;t&gt;}</span><script type="math/tex">\overleftarrow a^{<t>}</script></span>. What this allows us to do is learn the representation of each element in the sequence <em>within its context</em>. Explicitly, this is done by using the output of both the forward and backward units at each time step in order to make a prediction <span><span class="MathJax_Preview">\hat y^{&lt;t&gt;}</span><script type="math/tex">\hat y^{<t>}</script></span>:</p>
 <div>
 <div class="MathJax_Preview">\hat y^{&lt;t&gt;} = g(W_y[\overrightarrow a^{&lt;t&gt;}, \overleftarrow a^{&lt;t&gt;}] + b_y)</div>
@@ -1569,7 +1569,7 @@
 <p>The different versions of RNNs you've seen so far will already work quite well by themselves. But for learning very complex functions sometimes is useful to stack multiple layers of RNNs together to build even deeper versions of these models.</p>
 <p>Recall, that for a standard neural network we have some input <span><span class="MathJax_Preview">x</span><script type="math/tex">x</script></span> which is fed to a hidden layer with activations <span><span class="MathJax_Preview">a^{[l]}</span><script type="math/tex">a^{[l]}</script></span> which are in turn fed to the next layer to produce activations <span><span class="MathJax_Preview">a^{[l+1]}</span><script type="math/tex">a^{[l+1]}</script></span>. In this was, we can stack as many layers as we like. The same is true of RNNs. Lets use the notation <span><span class="MathJax_Preview">a^{[l]&lt;t&gt;}</span><script type="math/tex">a^{[l]<t>}</script></span> to denote the activations of layer <span><span class="MathJax_Preview">l</span><script type="math/tex">l</script></span> for timestep <span><span class="MathJax_Preview">t</span><script type="math/tex">t</script></span>.</p>
 <p>A stacked RNN would thus look something like the following:</p>
-<p><a href="https://postimg.cc/image/mg6otn4yn/"><img alt="deep_rnn_clean.png" src="https://s19.postimg.cc/qck0pmpyb/deep_rnn_clean.png" /></a></p>
+<p><img alt="deep_rnn_clean.png" src="../../img/deep-rnn-clean.png" /></p>
 <p>The computation of, for example, <span><span class="MathJax_Preview">a^{[2]&lt;3&gt;}</span><script type="math/tex">a^{[2]<3>}</script></span> would be:</p>
 <div>
 <div class="MathJax_Preview">a^{[2]&lt;3&gt;} = g(W_a^{[2]}[a^{[2]&lt;2&gt;}, a^{[1]&lt;3&gt;}] + b_a^{[2]})</div>
